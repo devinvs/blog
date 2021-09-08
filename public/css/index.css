@@ -1,0 +1,242 @@
+/*
+Main CSS File for blog.
+Format for all css entries:
+
+item {
+    layout
+
+    size/padding/margin
+
+    color/decorations/fonts/etc
+}
+
+Device selectors via media queries should only show up once,
+changing/adding as few styles to the default as possible,
+with comprehensive comments describing why that change
+is necessary
+*/
+
+/* Colors Used in this document
+Main Dark:  #1a1a1a
+Alt Dark:   #242424
+Light Text: #d8d8d8
+Alt Text:   #f2f2f2
+Green:      #73d673
+Dark Green: #61b361
+
+Special thanks to Melanie for approving this green.
+*/
+
+/* Fonts */
+@import url('../fonts/SourceCodePro-Regular.ttf');
+@import url('../fonts//Inter.ttf');
+
+/* Styles for all devices */
+
+* {
+    box-sizing: border-box; 
+}
+
+body {
+    width: 100%;
+    margin: 0;
+
+    background-color: #1a1a1a;
+}
+
+/* Top Navigation, distribute links horizontally */
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 100%;
+    height: 64px;
+
+    background-color: #242424;
+    box-shadow: 0px 0px 10px #000000;
+}
+
+/* Individual Items in the nav */
+nav a {
+    color: #f2f2f2;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 1.2em;
+    text-decoration: underline;
+}
+
+/* Make green to show interactability */
+nav a:hover {
+    color: #73d673;
+}
+
+/* The current item in the nav (if any) */
+nav a#selected {
+    color: #73d673;
+}
+
+/* Main article content */
+article {
+    padding: 16px;
+}
+
+/* All Possible Text items */
+h1, h2, h3, h4, h5, h6, p, date, blockquote, cite, li {
+    color: #d8d8d8;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Header Sizing */
+h1 {
+    font-size: 3em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+/* Headers reserve too much margin below them */
+h1 {
+    margin: 0;
+}
+
+h2, h3, h4, h5, h6 {
+    margin: 8px 0px;
+}
+
+
+/* Date field should be as close to h1 as possible */
+date {
+    margin: 0;
+}
+
+/* Fancy separator color */
+hr {
+    color: #73d673;
+}
+
+/* paragraphs should be slightly indented */
+p {
+    width: 97%;
+    margin: 8px auto;
+}
+
+/* Links in the text */
+a {
+    color: #73d673;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+/* Darken on hover to show interactability */
+a:hover {
+    color: #61b361;
+}
+
+/* Code styles, block */
+article code {
+    display: block;
+
+    width: 95%;
+    margin: auto;
+}
+
+/* Code syltes, inline */
+article p code {
+    display: inline;
+}
+
+/* Code Styles, inline or otherwise*/
+article code, article p code {
+
+    padding: 3px 8px;
+
+    background-color: #242424;
+    color: #f2f2f2;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.9em;
+    white-space: pre;
+    border-radius: 4px;
+    border-bottom: #73d673 1px solid;
+}
+
+/* Blockquote and citation styles */
+article blockquote {
+    margin-bottom: 0;
+    padding: 4px 8px;
+
+    font-size: 1.2em;
+}
+
+article cite {
+    padding: 4px 24px;
+
+    font-size: 0.8em;
+}
+
+article blockquote, article cite {
+    display: block;
+
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+
+    background-color: #242424;
+    border-left: #73d673 4px solid;
+}
+
+/* Image styles */
+article img {
+    display: block;
+
+    width: 80%;
+    margin: 16px auto;
+
+    border: #73d673 8px solid;
+}
+
+/* Checkbox Styles */
+input[type=checkbox] {
+    color: #ffffff;
+}
+
+
+/* Extremely Narrow Screens where Nav overlaps */
+@media (max-width: 280px) {
+    /* Since nav overlaps, we move to a vertical layout */
+    nav {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        padding: 8px;
+        width: auto;
+        height: auto;
+    }
+
+    /*
+    Given a smaller screen, it will be hard to click on the
+    nav, so we give a little more space between each item
+    */
+    nav a {
+        line-height: 2em;
+    }
+}
+
+/*
+Screens that are wide enough to need margins to make content
+more readable
+*/
+@media (min-width: 700px) {
+    /* Center article and set size to 700px*/
+    article {
+        width: 700px;
+        margin: auto;
+    }
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive</title>
+    <link rel="stylesheet" href="../css/index.css" />
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/latest">Latest</a>
+        <a href="/archive" id="selected">Archive</a>
+        <a href="/about">About</a>
+    </nav>
+    <article>
+        <h1>Archive</h1>
+        <p>The Other Side of the Void</p>
+        <ul>
+            {% for (title, slug, date) in entries %}
+                <li><a href="/post/{{slug}}">{{title}} - Published {{date}}</a></li>
+            {% endfor %}
+        </ul>
+    </article>
+</body>
+</html>
