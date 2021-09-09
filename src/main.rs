@@ -169,9 +169,9 @@ async fn main() -> std::io::Result<()> {
     writer.write_all(archive_template.render().unwrap().as_bytes()).unwrap();
     writer.flush().unwrap();
 
-    let debug = std::env::var("DEBUG").is_ok();
+    let prod = std::env::var("PRODUCTION").is_ok();
 
-    if debug {
+    if !prod {
         // Start building our webserver, routes and all
         println!("Starting web server");
         HttpServer::new(move || {
