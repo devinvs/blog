@@ -4,6 +4,7 @@ use askama::Template;
 use chrono::NaiveDate;
 use actix_web::{get, web, App, HttpServer};
 use actix_files::{NamedFile, Files};
+use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 
 
 #[derive(Template)]
@@ -168,23 +169,54 @@ async fn main() -> std::io::Result<()> {
     writer.write_all(archive_template.render().unwrap().as_bytes()).unwrap();
     writer.flush().unwrap();
 
-    // Start building our webserver, routes and all
-    println!("Starting web server");
-    HttpServer::new(move || {
-        App::new()
-            .data(AppState {
-                entries: entries[..].to_vec()
+    let debug = std::env::var("DEBUG").is_ok();
+
+    if debug {
+        // Start building our webserver, routes and all
+        println!("Starting web server");
+        HttpServer::new(move || {
+            App::new()
+                .data(AppState {
+                    entries: entries[..].to_vec()
+                })
+                .service(index)
+                .service(about)
+                .service(latest)
+                .service(archive)
+                .service(get_post)
+                .service(Files::new("/css", "./public/css").show_files_listing())
+                .service(Files::new("/fonts", "./public/fonts").show_files_listing())
+                .service(Files::new("/assets", "./public/assets").show_files_listing())
             })
-            .service(index)
-            .service(about)
-            .service(latest)
-            .service(archive)
-            .service(get_post)
-            .service(Files::new("/css", "./public/css").show_files_listing())
-            .service(Files::new("/fonts", "./public/fonts").show_files_listing())
-            .service(Files::new("/assets", "./public/assets").show_files_listing())
-        })
-    .bind("0.0.0.0:8080")?
-    .run()
-    .await
+        .bind("0.0.0.0:443")?
+        .run()
+        .await
+    } else {
+        // Certificate crap
+        let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
+        builder
+            .set_private_key_file("/etc/letsencrypt/live/void.vstelt.dev/privkey.pem", SslFiletype::PEM)
+            .unwrap();
+        builder.set_certificate_chain_file("/etc/letsencrypt/live/void.vstelt.dev/fullchain.pem").unwrap();
+
+        // Start building our webserver, routes and all
+        println!("Starting web server");
+        HttpServer::new(move || {
+            App::new()
+                .data(AppState {
+                    entries: entries[..].to_vec()
+                })
+                .service(index)
+                .service(about)
+                .service(latest)
+                .service(archive)
+                .service(get_post)
+                .service(Files::new("/css", "./public/css").show_files_listing())
+                .service(Files::new("/fonts", "./public/fonts").show_files_listing())
+                .service(Files::new("/assets", "./public/assets").show_files_listing())
+            })
+        .bind("0.0.0.0:443")?
+        .run()
+        .await
+    }
 }
