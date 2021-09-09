@@ -1,11 +1,9 @@
-use std::{fs::File, fs::read_to_string, io::{BufRead, BufReader, BufWriter, Read, Write}, path::{Path, PathBuf}, str::FromStr};
+use std::{fs::File, io::{BufRead, BufReader, BufWriter, Read, Write}, path::{Path, PathBuf}, str::FromStr};
 use pulldown_cmark::{Parser, Options, html};
 use askama::Template;
 use chrono::NaiveDate;
-use actix_web::{get, web, App, HttpServer};
+use actix_web::{App, HttpServer, get, middleware, web};
 use actix_files::{NamedFile, Files};
-use rustls::internal::pemfile::{certs, pkcs8_private_keys};
-use rustls::{NoClientAuth, ServerConfig};
 
 #[derive(Template)]
 #[template(path="blog.html")]
@@ -169,55 +167,24 @@ async fn main() -> std::io::Result<()> {
     writer.write_all(archive_template.render().unwrap().as_bytes()).unwrap();
     writer.flush().unwrap();
 
-    let prod = std::env::var("PRODUCTION").is_ok();
-
-    if !prod {
-        // Start building our webserver, routes and all
-        println!("Starting web server");
-        HttpServer::new(move || {
-            App::new()
-                .data(AppState {
-                    entries: entries[..].to_vec()
-                })
-                .service(index)
-                .service(about)
-                .service(latest)
-                .service(archive)
-                .service(get_post)
-                .service(Files::new("/css", "./public/css").show_files_listing())
-                .service(Files::new("/fonts", "./public/fonts").show_files_listing())
-                .service(Files::new("/assets", "./public/assets").show_files_listing())
+    // Start building our webserver, routes and all
+    println!("Starting web server");
+    HttpServer::new(move || {
+        App::new()
+            .data(AppState {
+                entries: entries[..].to_vec()
             })
-        .bind("0.0.0.0:8080")?
-        .run()
-        .await
-    } else {
-        // Certificate crap
-        let mut config = ServerConfig::new(NoClientAuth::new());
-        let cert_file = &mut BufReader::new(File::open("/etc/letsencrypt/live/void.vstelt.dev/cert.pem").unwrap());
-        let key_file = &mut BufReader::new(File::open("/etc/letsencrypt/live/void.vstelt.dev/privkey.pem").unwrap());
-        let cert_chain = certs(cert_file).unwrap();
-        let mut keys = pkcs8_private_keys(key_file).unwrap();
-        config.set_single_cert(cert_chain, keys.remove(0)).unwrap();
-
-        // Start building our webserver, routes and all
-        println!("Starting web server");
-        HttpServer::new(move || {
-            App::new()
-                .data(AppState {
-                    entries: entries[..].to_vec()
-                })
-                .service(index)
-                .service(about)
-                .service(latest)
-                .service(archive)
-                .service(get_post)
-                .service(Files::new("/css", "./public/css").show_files_listing())
-                .service(Files::new("/fonts", "./public/fonts").show_files_listing())
-                .service(Files::new("/assets", "./public/assets").show_files_listing())
-            })
-        .bind_rustls("0.0.0.0:443", config)?
-        .run()
-        .await
-    }
+            .wrap(middleware::Logger::default())
+            .service(index)
+            .service(about)
+            .service(latest)
+            .service(archive)
+            .service(get_post)
+            .service(Files::new("/css", "./public/css").show_files_listing())
+            .service(Files::new("/fonts", "./public/fonts").show_files_listing())
+            .service(Files::new("/assets", "./public/assets").show_files_listing())
+        })
+    .bind("0.0.0.0:8080")?
+    .run()
+    .await
 }
