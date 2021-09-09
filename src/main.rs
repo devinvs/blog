@@ -4,8 +4,8 @@ use askama::Template;
 use chrono::NaiveDate;
 use actix_web::{get, web, App, HttpServer};
 use actix_files::{NamedFile, Files};
-use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
-
+use rustls::internal::pemfile::{certs, pkcs8_private_keys};
+use rustls::{NoClientAuth, ServerConfig};
 
 #[derive(Template)]
 #[template(path="blog.html")]
@@ -188,16 +188,18 @@ async fn main() -> std::io::Result<()> {
                 .service(Files::new("/fonts", "./public/fonts").show_files_listing())
                 .service(Files::new("/assets", "./public/assets").show_files_listing())
             })
-        .bind("0.0.0.0:443")?
+        .bind("0.0.0.0:8080")?
         .run()
         .await
     } else {
         // Certificate crap
-        let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
-        builder
-            .set_private_key_file("/etc/letsencrypt/live/void.vstelt.dev/privkey.pem", SslFiletype::PEM)
-            .unwrap();
-        builder.set_certificate_chain_file("/etc/letsencrypt/live/void.vstelt.dev/fullchain.pem").unwrap();
+        let mut config = ServerConfig::new(NoClientAuth::new());
+        let cert_file = &mut BufReader::new(File::open("").unwrap());
+        let key_fiel = &mut BufReader::new(File::open("").unwrap());
+        let key_file = &mut BufReader::new(File::open("").unwrap());
+        let cert_chain = certs(cert_file).unwrap();
+        let mut keys = pkcs8_private_keys(key_file).unwrap();
+        config.set_single_cert(cert_chain, keys.remove(0)).unwrap();
 
         // Start building our webserver, routes and all
         println!("Starting web server");
@@ -215,7 +217,7 @@ async fn main() -> std::io::Result<()> {
                 .service(Files::new("/fonts", "./public/fonts").show_files_listing())
                 .service(Files::new("/assets", "./public/assets").show_files_listing())
             })
-        .bind("0.0.0.0:443")?
+        .bind_rustls("0.0.0.0:443", config)?
         .run()
         .await
     }

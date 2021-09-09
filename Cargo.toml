@@ -9,6 +9,6 @@ edition = "2018"
 pulldown-cmark="0.8"
 askama = "0.10"
 chrono = "*"
-actix-web={version="3", features=["openssl"]}
+actix-web={version="3", features=["rustls"]}
 actix-files="0.5"
-openssl = "0.10"
+rustls = "*"
