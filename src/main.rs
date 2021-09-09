@@ -55,7 +55,7 @@ async fn latest(data: web::Data<AppState>) -> NamedFile {
 }
 
 #[get("/archive")]
-async fn archive(data: web::Data<AppState>) -> NamedFile {
+async fn archive() -> NamedFile {
     NamedFile::open("./public/html/archive.html").unwrap()
 }
 
@@ -161,7 +161,7 @@ async fn main() -> std::io::Result<()> {
     let archive_template = ArchiveTemplate {
         entries: entry_tuples
     };
-    
+
     println!("Writing archive.html");
     let p = blog_path.join("archive.html");
     let mut writer = BufWriter::new(File::create(p).unwrap());

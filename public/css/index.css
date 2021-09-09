@@ -29,7 +29,7 @@ Special thanks to Melanie for approving this green.
 
 /* Fonts */
 @import url('../fonts/SourceCodePro-Regular.ttf');
-@import url('../fonts//Inter.ttf');
+@import url('../fonts/OpenSans-Regular.ttf');
 
 /* Styles for all devices */
 
@@ -37,9 +37,9 @@ Special thanks to Melanie for approving this green.
     box-sizing: border-box; 
 }
 
-body {
-    width: 100%;
+html, body {
     margin: 0;
+    overflow-x: hidden;
 
     background-color: #1a1a1a;
 }
@@ -78,13 +78,19 @@ nav a#selected {
 
 /* Main article content */
 article {
+    width: 100%;
     padding: 16px;
 }
 
 /* All Possible Text items */
 h1, h2, h3, h4, h5, h6, p, date, blockquote, cite, li {
     color: #d8d8d8;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Size for regular text items */
+p, a, li {
+    font-size: 1.1em;
 }
 
 /* Header Sizing */
@@ -117,13 +123,15 @@ date {
 
 /* Fancy separator color */
 hr {
+    margin-bottom: 32px;
+
     color: #73d673;
 }
 
 /* paragraphs should be slightly indented */
 p {
     width: 97%;
-    margin: 8px auto;
+    margin: 24px auto;
 }
 
 /* Links in the text */
@@ -171,7 +179,7 @@ article blockquote {
     margin-bottom: 0;
     padding: 4px 8px;
 
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 article cite {
