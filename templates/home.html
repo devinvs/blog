@@ -20,7 +20,7 @@
         <p>A Blog With No Audience</p>
         <ul>
             {% for (title, slug, date) in entries %}
-                <li><a href="/post/{{slug}}">{{title}} - Published {{date}}</a></li>
+                <li><a href="/articles/{{slug}}">{{title}} - Published {{date}}</a></li>
             {% endfor %}
         </ul>
     </article>

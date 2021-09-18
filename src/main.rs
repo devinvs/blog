@@ -2,8 +2,6 @@ use std::{fs::File, io::{BufRead, BufReader, BufWriter, Read, Write}, path::{Pat
 use pulldown_cmark::{Parser, Options, html};
 use askama::Template;
 use chrono::NaiveDate;
-use actix_web::{App, HttpServer, get, middleware, web};
-use actix_files::{NamedFile, Files};
 
 #[derive(Template)]
 #[template(path="blog.html")]
@@ -32,42 +30,7 @@ struct BlogEntry {
     date: NaiveDate
 }
 
-struct AppState {
-    entries: Vec<BlogEntry>
-}
-
-// Lets create some routes!
-#[get("/")]
-async fn index() -> NamedFile {
-    NamedFile::open("./public/html/home.html").unwrap()
-}
-
-#[get("/about")]
-async fn about() -> NamedFile {
-    NamedFile::open("./public/html/about.html").unwrap()
-}
-
-#[get("/latest")]
-async fn latest(data: web::Data<AppState>) -> NamedFile {
-    let latest = &data.entries[0].path;
-    NamedFile::open(latest).unwrap()
-}
-
-#[get("/archive")]
-async fn archive() -> NamedFile {
-    NamedFile::open("./public/html/archive.html").unwrap()
-}
-
-#[get("/post/{slug}")]
-async fn get_post(path: web::Path<String>, data: web::Data<AppState>) -> NamedFile {
-    let slug = path.0;
-    let path = &data.entries.iter().find(|b| b.slug == slug).unwrap().path;
-
-    NamedFile::open(path).unwrap()
-}
-
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
+fn main() {
     // Directories to read and write from
     let md_path = Path::new("./md");
     let blog_path = Path::new("./public/html");
@@ -110,7 +73,7 @@ async fn main() -> std::io::Result<()> {
 
             // Create Template
             let template = BlogTemplate {
-                title: title,
+                title,
                 content: &output_buf
             };
 
@@ -166,25 +129,4 @@ async fn main() -> std::io::Result<()> {
     let mut writer = BufWriter::new(File::create(p).unwrap());
     writer.write_all(archive_template.render().unwrap().as_bytes()).unwrap();
     writer.flush().unwrap();
-
-    // Start building our webserver, routes and all
-    println!("Starting web server");
-    HttpServer::new(move || {
-        App::new()
-            .data(AppState {
-                entries: entries[..].to_vec()
-            })
-            .wrap(middleware::Logger::default())
-            .service(index)
-            .service(about)
-            .service(latest)
-            .service(archive)
-            .service(get_post)
-            .service(Files::new("/css", "./public/css").show_files_listing())
-            .service(Files::new("/fonts", "./public/fonts").show_files_listing())
-            .service(Files::new("/assets", "./public/assets").show_files_listing())
-        })
-    .bind("0.0.0.0:8080")?
-    .run()
-    .await
 }
