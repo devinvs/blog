@@ -129,4 +129,9 @@ fn main() {
     let mut writer = BufWriter::new(File::create(p).unwrap());
     writer.write_all(archive_template.render().unwrap().as_bytes()).unwrap();
     writer.flush().unwrap();
+
+    println!("Writing latest.html");
+    let latest = &entries[0];
+    let p = blog_path.join("latest.html");
+    std::fs::copy(latest.path.clone(), p).unwrap();
 }
