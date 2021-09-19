@@ -81,11 +81,12 @@ impl PartialOrd for Date {
     }
 }
 
-#[derive(Template)]
+#[derive(Template, Clone, Debug)]
 #[template(path="blog.html")]
 struct BlogTemplate<'a> {
     title: &'a str,
-    content: &'a str
+    content: &'a str,
+    latest: bool
 }
 
 #[derive(Template)]
@@ -105,7 +106,8 @@ struct BlogEntry {
     title: String,
     path: PathBuf,
     slug: String,
-    date: Date
+    date: Date,
+    content: String
 }
 
 fn main() {
@@ -149,27 +151,18 @@ fn main() {
             let parser = Parser::new_ext(&input_buf, parser_options);
             html::push_html(&mut output_buf, parser);
 
-            // Create Template
-            let template = BlogTemplate {
-                title,
-                content: &output_buf
-            };
-
-            // Render the template
+            // Add content to entry
             path.set_extension("html");
-            println!("Writing {}", path.file_name().unwrap().to_str().unwrap());
 
             let output_path = article_path.join(path.file_name().unwrap());
-            let mut writer = BufWriter::new(File::create(&output_path).unwrap());
-
-            writer.write_all(template.render().unwrap().as_bytes()).unwrap();
 
             // Add to entries list
             entries.push(BlogEntry{
                 path: output_path,
                 title: title.to_string(),
                 slug: slug.to_string(),
-                date: Date::from_str(date).unwrap()
+                date: Date::from_str(date).unwrap(),
+                content: output_buf.clone()
             });
 
             // Clear buffers
@@ -177,9 +170,23 @@ fn main() {
             output_buf.clear();
         }
     }
+    entries.sort_unstable_by_key(|a| a.date);
+
+    for (i, entry) in entries.iter().enumerate() {
+        println!("Writing {}", entry.path.file_name().unwrap().to_str().unwrap());
+
+        let template = BlogTemplate {
+            title: entry.title.as_str(),
+            content: entry.content.as_str(),
+            latest: i==0
+        };
+
+        let mut writer = BufWriter::new(File::create(&entry.path).unwrap());
+        writer.write_all(template.render().unwrap().as_bytes()).unwrap();
+    }
+
 
     // Now render the template for the home page with the latest articles
-    entries.sort_unstable_by_key(|a| a.date);
     let last_3 = entries.iter().take(3)
         .map(|e| (e.title.clone(), e.slug.clone(), e.date.to_string()))
         .collect::<Vec<(String, String, String)>>();
