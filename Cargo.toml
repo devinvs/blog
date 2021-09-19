@@ -8,4 +8,3 @@ edition = "2018"
 [dependencies]
 pulldown-cmark="0.8"
 askama = "0.10"
-chrono = "*"

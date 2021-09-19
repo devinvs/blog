@@ -1,7 +1,85 @@
-use std::{fs::File, io::{BufRead, BufReader, BufWriter, Read, Write}, path::{Path, PathBuf}, str::FromStr};
+use std::{fs::File, io::{BufRead, BufReader, BufWriter, Read, Write}, path::{Path, PathBuf}};
 use pulldown_cmark::{Parser, Options, html};
 use askama::Template;
-use chrono::NaiveDate;
+use std::error::Error;
+
+#[derive(Eq, PartialEq, Clone, Copy, Debug, Ord)]
+struct Date {
+    day: u8,
+    month: u8,
+    year: usize
+}
+
+impl Date {
+    fn from_str(date_str: &str) -> Result<Date, Box<dyn Error>> {
+        let mut parts = date_str.split('-');
+
+        let year = parts.next().unwrap().parse::<usize>()?;
+        let month = parts.next().unwrap().parse::<u8>()?;
+        let day = parts.next().unwrap().trim().parse::<u8>()?;
+
+        Ok(Date {
+            day,
+            month,
+            year
+        })
+    }
+
+    fn to_string(&self) -> String {
+        let mut output = String::with_capacity(18); // Max size of date in this format
+
+        output.push_str(
+            match self.month {
+                1 => "January ",
+                2 => "Feburary ",
+                3 => "March ",
+                4 => "April ",
+                5 => "May ",
+                6 => "June ",
+                7 => "July ",
+                8 => "August ",
+                9 => "September ",
+                10 => "October ",
+                11 => "November ",
+                12 => "December ",
+                _ => ""
+        });
+
+        output.push_str(self.day.to_string().as_str());
+        output.push_str(", ");
+
+        output.push_str(self.year.to_string().as_str());
+
+        output
+    }
+}
+
+impl PartialOrd for Date {
+    fn partial_cmp(&self, other: &Date) -> Option<std::cmp::Ordering> {
+        if self.year > other.year {
+            return Some(std::cmp::Ordering::Greater);
+        } else if self.year < other.year {
+            return Some(std::cmp::Ordering::Less);
+        }
+
+        if self.month > other.month {
+            return Some(std::cmp::Ordering::Greater);
+
+        } else if self.month < other.month {
+            return Some(std::cmp::Ordering::Less);
+
+        }
+
+        if self.day > other.day {
+            return Some(std::cmp::Ordering::Greater);
+
+        } else if self.day < other.day {
+            return Some(std::cmp::Ordering::Less);
+        }
+
+        Some(std::cmp::Ordering::Equal)
+    }
+}
 
 #[derive(Template)]
 #[template(path="blog.html")]
@@ -27,7 +105,7 @@ struct BlogEntry {
     title: String,
     path: PathBuf,
     slug: String,
-    date: NaiveDate
+    date: Date
 }
 
 fn main() {
@@ -91,7 +169,7 @@ fn main() {
                 path: output_path,
                 title: title.to_string(),
                 slug: slug.to_string(),
-                date: NaiveDate::from_str(date).unwrap()
+                date: Date::from_str(date).unwrap()
             });
 
             // Clear buffers
@@ -103,7 +181,7 @@ fn main() {
     // Now render the template for the home page with the latest articles
     entries.sort_unstable_by_key(|a| a.date);
     let last_3 = entries.iter().take(3)
-        .map(|e| (e.title.clone(), e.slug.clone(), e.date.format("%B%e, %Y").to_string()))
+        .map(|e| (e.title.clone(), e.slug.clone(), e.date.to_string()))
         .collect::<Vec<(String, String, String)>>();
 
     let home_template = HomeTemplate {
@@ -118,7 +196,7 @@ fn main() {
 
     // Render the archive template
     let entry_tuples = entries.iter()
-        .map(|e| (e.title.clone(), e.slug.clone(), e.date.format("%B%e, %Y").to_string()))
+        .map(|e| (e.title.clone(), e.slug.clone(), e.date.to_string()))
         .collect::<Vec<(String, String, String)>>();
     let archive_template = ArchiveTemplate {
         entries: entry_tuples
