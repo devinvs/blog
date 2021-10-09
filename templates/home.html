@@ -4,20 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Into the Void</title>
+    <title>Devin Vander Stelt's Blog</title>
 
     <link rel="stylesheet" href="../css/index.css" />
 </head>
 <body>
-    <nav>
-        <a href="/" id="selected">Home</a>
-        <a href="/latest">Latest</a>
-        <a href="/archive">Archive</a>
-        <a href="/about">About</a>
+	<nav>
+        <div id="title">
+            <a href="/">Devin Vander Stelt's Blog</a>
+        </div>
+        <div id="links">
+            <a href="/latest">Latest</a>
+            <a href="/archive">Archive</a>
+            <a href="/about">About</a>
+        </div>
     </nav>
     <article>
-        <h1>Into the Void</h1>
-        <p>A Blog With No Audience</p>
+        <h1>Welcome To My Blog</h1>
+        <p>Here's what I've been thinking about lately...</p>
         <ul>
             {% for (title, slug, date) in entries %}
                 <li><a href="/articles/{{slug}}">{{title}} - Published {{date}}</a></li>

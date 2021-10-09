@@ -9,11 +9,15 @@
     <link rel="stylesheet" href="../../css/index.css" />
 </head>
 <body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/latest" {% if latest %}id="selected"{% endif %}>Latest</a>
-        <a href="/archive">Archive</a>
-        <a href="/about">About</a>
+	<nav>
+        <div id="title">
+            <a href="/">Devin Vander Stelt's Blog</a>
+        </div>
+        <div id="links">
+            <a id={% if latest %}"selected"{% else %}""{% endif %} href="/latest">Latest</a>
+            <a href="/archive">Archive</a>
+            <a href="/about">About</a>
+        </div>
     </nav>
     <article>
         {{content|safe}}

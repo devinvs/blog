@@ -171,6 +171,7 @@ fn main() {
         }
     }
     entries.sort_unstable_by_key(|a| a.date);
+    entries.reverse();
 
     for (i, entry) in entries.iter().enumerate() {
         println!("Writing {}", entry.path.file_name().unwrap().to_str().unwrap());
