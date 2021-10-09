@@ -57,8 +57,7 @@ nav {
     justify-content: space-between;
     align-items: center;
 
-    margin-bottom: 32px;
-    margin-top: 16px;
+    margin: 32px 8px 16px;
 }
 /* Nav Title */
 nav div#title a {
@@ -232,26 +231,18 @@ input[type=checkbox] {
     color: #ffffff;
 }
 
-
-/* Extremely Narrow Screens where Nav overlaps */
-@media (max-width: 280px) {
-    /* Since nav overlaps, we move to a vertical layout */
+/* Narrow screens where Nav overlaps */
+@media (max-width: 640px) {
+    /* Organize nav vertically instead of horizontally */
     nav {
         flex-direction: column;
-        justify-content: flex-start;
         align-items: flex-start;
-
-        padding: 8px;
-        width: auto;
-        height: auto;
     }
 
-    /*
-    Given a smaller screen, it will be hard to click on the
-    nav, so we give a little more space between each item
-    */
-    nav a {
-        line-height: 2em;
+    /* Indent links a little bit to distinguish from the title */
+    nav div#links {
+        margin-top: 8px;
+        margin-left: 16px;
     }
 }
 
