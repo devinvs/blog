@@ -85,6 +85,14 @@ nav div#links a#selected {
     color: #a56cc4;
 }
 
+/* Copyright */
+p#copyright {
+    font-size: 0.8em;
+    color: #666;
+    width: 100%;
+    text-align: center;
+}
+
 /* Main article content */
 article {
     width: 100%;
