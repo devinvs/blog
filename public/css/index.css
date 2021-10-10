@@ -161,7 +161,7 @@ p {
 a {
     color: #a56cc4;
     font-family: 'Source Code Pro', monospace;
-    font-size: 0.9em;
+    font-size: 1em;
     text-decoration: none;
 }
 
@@ -187,16 +187,13 @@ article p code, article li code {
 
 /* Code Styles, inline or otherwise*/
 article code, article p code {
+    padding: 1px 8px;
 
-    padding: 3px 8px;
-
-    background-color: #242424;
-    color: #f2f2f2;
+    background-color: #1a1a1a;
+    color: #dfdfdf;
     font-family: 'Source Code Pro', monospace;
     font-size: 0.9em;
     white-space: pre;
-    border-radius: 4px;
-    border-bottom: #a56cc4 1px solid;
 }
 
 /* Blockquote and citation styles */
