@@ -47,7 +47,7 @@ html, body {
     margin: 0;
     overflow-x: hidden;
 
-    background-color: #dfdfdf;
+    background-color: #f2f2f2;
 }
 
 /* Top Navigation, distribute links horizontally */
@@ -225,7 +225,7 @@ article blockquote, article cite {
 article img {
     display: block;
 
-    width: 80%;
+    width: 90%;
     margin: 16px auto;
 
     border: #a56cc4 8px solid;
