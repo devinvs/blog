@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Devin Vander Stelt's Blog</title>
+        <link>https://blog.vstelt.dev</link>
+        <description>Here's what I've been thinking about lately...</description>
+        <language>en-us</language>
+        <lastBuildDate>{{today}}</lastBuildDate>
+        {% for (title, slug, date) in entries %}
+        <item>
+            <title>{{title}}</title>
+            <link>https://blog.vstelt.dev/articles/{{slug}}</link>
+            <author>Devin Vander Stelt</author>
+            <pubDate>{{date}}</pubDate>
+        </item>
+        {% endfor %}
+    </channel>
+</rss>

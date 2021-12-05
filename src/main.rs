@@ -2,6 +2,8 @@ use std::{fs::File, io::{BufRead, BufReader, BufWriter, Read, Write}, path::{Pat
 use pulldown_cmark::{Parser, Options, html};
 use askama::Template;
 use std::error::Error;
+use chrono::offset::Local;
+use chrono::prelude::*;
 
 #[derive(Eq, PartialEq, Clone, Copy, Debug, Ord)]
 struct Date {
@@ -51,6 +53,16 @@ impl Date {
         output.push_str(self.year.to_string().as_str());
 
         output
+    }
+
+    fn to_rfc2822(&self) -> String {
+        let date = Local.ymd(
+            self.year as i32,
+            self.month as u32,
+            self.day as u32
+        ).and_hms(0, 0, 0);
+
+        date.to_rfc2822()
     }
 }
 
@@ -110,11 +122,19 @@ struct BlogEntry {
     content: String
 }
 
+#[derive(Template)]
+#[template(path="rss.xml")]
+struct RSSTemplate {
+    today: String,
+    entries: Vec<(String, String, String)>
+}
+
 fn main() {
     // Directories to read and write from
     let md_path = Path::new("./md");
     let blog_path = Path::new("./public/html");
     let article_path = Path::new("./public/html/articles");
+    let rss_path = Path::new("./public/rss");
 
     // So we begin by reading every markdown file in input,
     // converting it to html and then writing it to output
@@ -220,4 +240,17 @@ fn main() {
     let latest = &entries[0];
     let p = blog_path.join("latest.html");
     std::fs::copy(latest.path.clone(), p).unwrap();
+
+    println!("Writing rss.xml");
+    let today = Local::now();
+    let rss_entries =  entries.iter().map(|e| {
+        (e.title.clone(), e.slug.clone(), e.date.to_rfc2822())
+    }).collect();
+    let rss_template = RSSTemplate {
+        today: today.to_rfc2822(),
+        entries: rss_entries
+    };
+    let p = rss_path.join("rss.xml");
+    let mut writer = BufWriter::new(File::create(p).unwrap());
+    writer.write_all(rss_template.render().unwrap().as_bytes()).unwrap();
 }
