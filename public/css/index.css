@@ -47,7 +47,7 @@ html, body {
     margin: 0;
     overflow-x: hidden;
 
-    background-color: #f2f2f2;
+    background-color: #1a1a1a;
 }
 
 /* Top Navigation, distribute links horizontally */
@@ -69,7 +69,7 @@ nav div#title a {
 nav div#links a {
     margin: 0 16px;
 
-    color: #1a1a1a;
+    color: #dfdfdf;
     font-family: 'Source Code Pro', monospace;
     font-size: 1.2em;
     text-decoration: underline;
@@ -101,13 +101,13 @@ article {
 
 /* All header items */
 h1, h2, h3, h4, h5, h6 {
-    color: #1a1a1a;
+    color: #f2f2f2 !important;
     font-family: 'Open Sans', sans-serif;
 }
 
 /* All Possible Text items */
 h1, h2, h3, h4, h5, h6, p, date, blockquote, cite, li {
-    color: #333333;
+    color: #dfdfdf;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -171,7 +171,7 @@ a:hover {
 }
 
 /* Code styles, block */
-article code {
+article pre code {
     display: block;
     overflow-x: scroll;
 
@@ -179,17 +179,17 @@ article code {
     margin: auto;
 }
 
-/* Code syltes, inline */
+/* Code styles, inline */
 article p code, article li code {
     display: inline;
     overflow-x: hidden;
 }
 
 /* Code Styles, inline or otherwise*/
-article code, article p code {
+article pre code, article code, article p code {
     padding: 1px 8px;
 
-    background-color: #1a1a1a;
+    background-color: #333333;
     color: #dfdfdf;
     font-family: 'Source Code Pro', monospace;
     font-size: 0.9em;
