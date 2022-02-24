@@ -234,5 +234,5 @@ in rust. The complete source code can be found [on my
 github.](https://github.com/DevinVS/neuralnet)
 
 If you find any errors in this article or in my source code, feel free to reach
-out to me at [devin@vstelt.com](mailto:devin@vstelt.com). I did this project as
+out to me at [devin@vstelt.dev](mailto:devin@vstelt.dev). I did this project as
 a learning exercise would love for my understanding to be further developed.
