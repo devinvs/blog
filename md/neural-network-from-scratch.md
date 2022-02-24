@@ -1,7 +1,7 @@
-Writing a Neural Network from Scratch in Rust|neural-network-from-scratch|2021-10-08
+Writing a Neural Network from Scratch in Rust|neural-network-from-scratch|2022-02-24
 
 # Writing a Neural Network from Scratch in Rust
-_Published October 8, 2021_
+_Published February 24, 2022_
 <hr>
 
 It's what powers nearly all of modern artificial intelligence, from facial
