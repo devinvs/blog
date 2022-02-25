@@ -530,8 +530,13 @@ impl Parse for Num {
     }
 }
 ```
-Testing the parser is done by calling `Num::parse(&[Lexeme::One, Lexeme::Hundred, Lexeme::And, Lexeme::Five])`. This
-should return the following parse tree:
+Testing the parser is done by calling:
+
+```rust
+Num::parse(&[Lexeme::One, Lexeme::Hundred, Lexeme::And, Lexeme::Five])
+```
+
+This should return the following parse tree:
 
 ```rust
 Num::Hundreds(
