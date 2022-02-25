@@ -5,20 +5,27 @@
         <link>https://blog.vstelt.dev</link>
         <description>Here's what I've been thinking about lately...</description>
         <language>en-us</language>
-        <lastBuildDate>Thu, 24 Feb 2022 05:49:03 -0500</lastBuildDate>
+        <lastBuildDate>Fri, 25 Feb 2022 00:39:23 -0500</lastBuildDate>
         
         <item>
-            <title>How I Built This</title>
-            <link>https://blog.vstelt.dev/articles/how-i-built-this</link>
+            <title>Unlocking Parsers</title>
+            <link>https://blog.vstelt.dev/articles/unlocking-parsers</link>
             <author>Devin Vander Stelt</author>
-            <pubDate>Sat, 09 Oct 2021 00:00:00 -0400</pubDate>
+            <pubDate>Thu, 24 Feb 2022 00:00:00 -0500</pubDate>
         </item>
         
         <item>
             <title>Writing a Neural Network from Scratch in Rust</title>
             <link>https://blog.vstelt.dev/articles/neural-network-from-scratch</link>
             <author>Devin Vander Stelt</author>
-            <pubDate>Fri, 08 Oct 2021 00:00:00 -0400</pubDate>
+            <pubDate>Thu, 24 Feb 2022 00:00:00 -0500</pubDate>
+        </item>
+        
+        <item>
+            <title>How I Built This</title>
+            <link>https://blog.vstelt.dev/articles/how-i-built-this</link>
+            <author>Devin Vander Stelt</author>
+            <pubDate>Sat, 09 Oct 2021 00:00:00 -0400</pubDate>
         </item>
         
         <item>
