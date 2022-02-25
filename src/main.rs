@@ -208,12 +208,12 @@ fn main() {
 
 
     // Now render the template for the home page with the latest articles
-    let last_3 = entries.iter().take(3)
+    let last_7 = entries.iter().take(7)
         .map(|e| (e.title.clone(), e.slug.clone(), e.date.to_string()))
         .collect::<Vec<(String, String, String)>>();
 
     let home_template = HomeTemplate {
-        entries: last_3
+        entries: last_7
     };
 
     println!("Writing home.html");
