@@ -5,7 +5,14 @@
         <link>https://blog.vstelt.dev</link>
         <description>Here's what I've been thinking about lately...</description>
         <language>en-us</language>
-        <lastBuildDate>Fri, 25 Feb 2022 00:51:22 -0500</lastBuildDate>
+        <lastBuildDate>Mon, 28 Feb 2022 22:26:04 -0500</lastBuildDate>
+        
+        <item>
+            <title>Simple GUIs with Rust</title>
+            <link>https://blog.vstelt.dev/articles/simple-guis-with-rust</link>
+            <author>Devin Vander Stelt</author>
+            <pubDate>Mon, 28 Feb 2022 00:00:00 -0500</pubDate>
+        </item>
         
         <item>
             <title>Unlocking Parsers</title>
