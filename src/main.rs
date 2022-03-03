@@ -4,6 +4,7 @@ use askama::Template;
 use std::error::Error;
 use chrono::offset::Local;
 use chrono::prelude::*;
+use regex::Regex;
 
 #[derive(Eq, PartialEq, Clone, Copy, Debug, Ord)]
 struct Date {
@@ -142,7 +143,11 @@ fn main() {
     let mut md_file_iter = md_path.read_dir().unwrap();
 
     let mut input_buf = String::with_capacity(1000);
+    let mut replace_buf = String::with_capacity(1000);
     let mut output_buf = String::with_capacity(1000);
+
+    let inline = Regex::new(r"\$(.*)\$").unwrap();
+    let single = Regex::new(r"\\\[(.*)\\\]").unwrap();
 
     // For each markdown file in md, convert to html file in articles using
     // the markdown parser and the template engine. Additionally, store metadata
@@ -166,9 +171,31 @@ fn main() {
             let slug = data.next().unwrap();
             let date = data.next().unwrap();
 
-            // Parse the markdown
+            // Read the file
             reader.read_to_string(&mut input_buf).unwrap();
-            let parser = Parser::new_ext(&input_buf, parser_options);
+            replace_buf = input_buf.clone();
+
+            // Replace all latex math strings with katex
+            let inline_captures: Vec<_> = inline.captures_iter(&input_buf).collect();
+            let single_captures: Vec<_> = single.captures_iter(&input_buf).collect();
+
+            for cap in inline_captures {
+                let math = katex::render(&cap[1]).unwrap();
+                replace_buf = replace_buf.replace(&cap[0], &math);
+            }
+
+            let opts = katex::Opts::builder()
+                .display_mode(true)
+                .build()
+                .unwrap();
+
+            for cap in single_captures {
+                let math = katex::render_with_opts(&cap[1], &opts).unwrap();
+                replace_buf = replace_buf.replace(&cap[0], &math);
+            }
+
+            // parse the markdown
+            let parser = Parser::new_ext(&replace_buf, parser_options);
             html::push_html(&mut output_buf, parser);
 
             // Add content to entry
@@ -187,6 +214,7 @@ fn main() {
 
             // Clear buffers
             input_buf.clear();
+            replace_buf.clear();
             output_buf.clear();
         }
     }
