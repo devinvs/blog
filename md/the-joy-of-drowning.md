@@ -36,7 +36,7 @@ And then it did.
 
 And it was amazing.
 
-After many, many hours I had a character with a few animations and a simple, tilable barckground. They weren't even
+After many, many hours I had a character with a few animations and a simple, tilable background. They weren't even
 particularly impressive. If you had shown me them a few days prior I would have told you there was no way that I could
 create it. The amazing thing is that this exercise was one of the most rewarding things that I had done in a while. I
 was immensely happy with the work that I had done.
