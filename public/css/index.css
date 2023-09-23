@@ -29,226 +29,255 @@ Special thanks to Melanie for approving this purple.
 
 /* Fonts */
 @font-face {
-    font-family: "Source Code Pro";
-    src: url("../fonts/SourceCodePro-Regular.ttf");
+  font-family: "Source Code Pro";
+  src: url("../fonts/SourceCodePro-Regular.ttf");
 }
+
 @font-face {
-    font-family: "Open Sans";
-    src: url('../fonts/OpenSans-Regular.ttf');
+  font-family: "Open Sans";
+  src: url('../fonts/OpenSans-Regular.ttf');
 }
 
 /* Styles for all devices */
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-html, body {
-    margin: 0;
-    overflow-x: hidden;
+html,
+body {
+  margin: 0;
+  overflow-x: hidden;
 
-    background-color: #1a1a1a;
+  background-color: #1a1a1a;
 }
 
 /* Top Navigation, distribute links horizontally */
 nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 
-    margin: 32px 8px 16px;
+  margin: 32px 8px 16px;
 }
+
 /* Nav Title */
 nav div#title a {
-    font-family: 'Source Code Pro', monospace;
-    font-size: 1.2em;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 1.2em;
 }
 
 /* Individual Links in the nav */
 nav div#links a {
-    margin: 0 16px;
+  margin: 0 16px;
 
-    color: #dfdfdf;
-    font-family: 'Source Code Pro', monospace;
-    font-size: 1.2em;
-    text-decoration: underline;
+  color: #dfdfdf;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 1.2em;
+  text-decoration: underline;
 }
 
 /* Make purple to show interactability */
 nav div#links a:hover {
-    color: #a56cc4;
+  color: #a56cc4;
 }
 
 /* The current item in the nav (if any) */
 nav div#links a#selected {
-    color: #a56cc4;
+  color: #a56cc4;
 }
 
 /* Copyright */
 p#copyright {
-    font-size: 0.8em;
-    color: #666;
-    width: 100%;
-    text-align: center;
+  font-size: 0.8em;
+  color: #666;
+  width: 100%;
+  text-align: center;
 }
 
 /* Main article content */
 article {
-    width: 100%;
-    padding: 16px;
+  width: 100%;
+  padding: 16px;
 }
 
 /* All header items */
-h1, h2, h3, h4, h5, h6 {
-    color: #f2f2f2 !important;
-    font-family: 'Open Sans', sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #f2f2f2 !important;
+  font-family: 'Open Sans', sans-serif;
 }
 
 /* All Possible Text items */
-h1, h2, h3, h4, h5, h6, p, date, blockquote, cite, li {
-    color: #dfdfdf;
-    font-family: 'Open Sans', sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+date,
+blockquote,
+cite,
+li {
+  color: #dfdfdf;
+  font-family: 'Open Sans', sans-serif;
 }
 
 /* Size for regular text items */
-p, a, li {
-    font-size: 1.1rem;
+p,
+a,
+li {
+  font-size: 1.1rem;
 }
 
 /* Header Sizing */
 h1 {
-    font-size: 3em;
+  font-size: 2.3em;
 }
 
 h2 {
-    font-size: 2em;
+  font-size: 1.8em;
 }
 
 h3 {
-    font-size: 1.5em;
+  font-size: 1.5em;
 }
 
 /* Headers reserve too much margin below them */
 h1 {
-    margin: 0;
+  margin: 0;
 }
 
-h2, h3, h4, h5, h6 {
-    margin: 8px 0px;
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 8px 0px;
 }
 
 
 /* Date field should be as close to h1 as possible */
 date {
-    margin: 0;
+  margin: 0;
 }
 
 /* Fancy separator color */
 hr {
-    margin-bottom: 32px;
+  margin-bottom: 32px;
 
-    color: #a56cc4;
+  color: #a56cc4;
 }
 
 /* paragraphs should be slightly indented */
 p {
-    width: 97%;
-    margin: 24px auto;
+  width: 97%;
+  margin: 24px auto;
 }
 
 /* Links in the text */
 a {
-    color: #a56cc4;
-    font-family: 'Source Code Pro', monospace;
-    font-size: 1em;
-    text-decoration: none;
+  color: #a56cc4;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 1em;
+  text-decoration: none;
 }
 
 /* Darken on hover to show interactability */
 a:hover {
-    color: #805499;
+  color: #805499;
 }
 
 /* Code styles, block */
 article pre code {
-    display: block;
-    overflow-x: scroll;
+  display: block;
+  overflow-x: scroll;
 
-    width: 95%;
-    margin: auto;
+  width: 95%;
+  margin: auto;
 }
 
 /* Code styles, inline */
-article p code, article li code {
-    display: inline;
-    overflow-x: hidden;
+article p code,
+article li code {
+  display: inline;
+  overflow-x: hidden;
 }
 
 /* Code Styles, inline or otherwise*/
-article pre code, article code, article p code {
-    padding: 1px 8px;
+article pre code,
+article code,
+article p code {
+  padding: 1px 8px;
 
-    background-color: #333333;
-    color: #dfdfdf;
-    font-family: 'Source Code Pro', monospace;
-    font-size: 0.9em;
-    white-space: pre;
+  background-color: #333333;
+  color: #dfdfdf;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.9em;
+  white-space: pre;
 }
 
 /* Blockquote and citation styles */
 article blockquote {
-    margin-bottom: 0;
-    padding: 4px 8px;
+  margin-bottom: 0;
+  padding: 4px 8px;
 
-    font-size: 1em;
+  font-size: 1em;
 }
 
 article cite {
-    padding: 4px 24px;
+  padding: 4px 24px;
 
-    font-size: 0.8em;
+  font-size: 0.8em;
 }
 
-article blockquote, article cite {
-    display: block;
+article blockquote,
+article cite {
+  display: block;
 
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
 
-    background-color: #333333;
-    border-left: #a56cc4 4px solid;
+  background-color: #333333;
+  border-left: #a56cc4 4px solid;
 }
 
 /* Image styles */
 article img {
-    display: block;
+  display: block;
 
-    width: 90%;
-    margin: 16px auto;
+  width: 90%;
+  margin: 16px auto;
 
-    border: #a56cc4 8px solid;
+  border: #a56cc4 8px solid;
 }
 
 /* Checkbox Styles */
 input[type=checkbox] {
-    color: #ffffff;
+  color: #ffffff;
 }
 
 /* Narrow screens where Nav overlaps */
 @media (max-width: 640px) {
-    /* Organize nav vertically instead of horizontally */
-    nav {
-        flex-direction: column;
-        align-items: flex-start;
-    }
 
-    /* Indent links a little bit to distinguish from the title */
-    nav div#links {
-        margin-top: 8px;
-        margin-left: 16px;
-    }
+  /* Organize nav vertically instead of horizontally */
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Indent links a little bit to distinguish from the title */
+  nav div#links {
+    margin-top: 8px;
+    margin-left: 16px;
+  }
 }
 
 /*
@@ -256,9 +285,10 @@ Screens that are wide enough to need margins to make content
 more readable
 */
 @media (min-width: 800px) {
-    /* Center content and set size to 700px*/
-    body {
-        width: 800px;
-        margin: auto;
-    }
+
+  /* Center content and set size to 700px*/
+  body {
+    width: 800px;
+    margin: auto;
+  }
 }
